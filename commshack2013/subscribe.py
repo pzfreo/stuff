@@ -3,7 +3,7 @@ import json
 
 subscribers = [ { 'phone': '447740199729', 'area':'GB-Portsmouth' }]
 
-latest =  {'GB-Oxford':""} ;
+latest =  {'GB-Nowhere':""} ;
 
 def on_message(mosq,obj,msg):
 	topic = msg.topic.split('/');
@@ -15,16 +15,19 @@ def on_message(mosq,obj,msg):
 
 def sms(msg):
   data = json.loads(msg.payload)
-  text = data['Body']
-  frm = data['From']  
+  text = data['Body'][0]
+  frm = data['From'][0][1:] # REMOVE THE PLUS  
   print text, frm
   area = text.split(' ')
-  country = area[1]
-  city = area[2]
+  country = area[0]
+  city = area[1]
   areatoadd = country+'-'+city
   sub = { 'phone': frm, 'area': areatoadd}
-  print "added subscriber "+sub
+  print "added subscriber "+json.dumps(sub)
   subscribers.append(sub)
+  if (areatoadd in latest):
+  	client.publish("/phone/"+frm, json.dumps(latest[areatoadd]))
+
 
 def updateandsend(key, data):
 	latest[key] = data;

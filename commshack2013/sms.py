@@ -3,6 +3,8 @@ import httplib2
 from urllib import urlencode
 import json
 from twilio.rest import TwilioRestClient
+import os
+
 
 def on_message(mosq,obj,msg):
    print "received"
@@ -13,8 +15,11 @@ def text(number,message):
   # Download the twilio-python library from http://twilio.com/docs/libraries
  
   # Find these values at https://twilio.com/user/account
-  account_sid = "ACbbb220a8adcc0791645e776dc5c17a80"
-  auth_token = "970687df44a22013bdf74a5145b066bd"
+
+print os.getenv('KEY_THAT_MIGHT_EXIST', default_value)
+
+  account_sid = os.getenv('TWILIO_SID')
+  auth_token = os.getenv('TWILIO_TOKEN')
   client = TwilioRestClient(account_sid, auth_token)
  
   message = client.messages.create(to=number, from_="441143031705",
