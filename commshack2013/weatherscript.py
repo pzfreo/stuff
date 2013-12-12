@@ -16,7 +16,7 @@ def call_weather(city):
     response=json.loads(content)
     
     main = response['main']
-    temp = main['temp'] - 273.15
+    temp = round(main['temp'] - 273.15,2)
     humidity = main['humidity']
     pressure = main['pressure']
     wind = response['wind']
@@ -37,5 +37,5 @@ def call_weather(city):
 while 1==1:
   for city in cities:
     call_weather(city)
-  time.sleep(30)
+  time.sleep(10)
 

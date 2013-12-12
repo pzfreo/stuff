@@ -13,11 +13,11 @@ def text(number,message):
   # Download the twilio-python library from http://twilio.com/docs/libraries
  
   # Find these values at https://twilio.com/user/account
-  account_sid = ""
-  auth_token = ""
+  account_sid = "ACbbb220a8adcc0791645e776dc5c17a80"
+  auth_token = "970687df44a22013bdf74a5145b066bd"
   client = TwilioRestClient(account_sid, auth_token)
  
-  message = client.messages.create(to=number, from_="",
+  message = client.messages.create(to=number, from_="441143031705",
                                      body=message)
 
 
