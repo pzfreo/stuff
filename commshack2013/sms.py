@@ -18,9 +18,10 @@ def text(number,message):
 
   account_sid = os.getenv('TWILIO_SID')
   auth_token = os.getenv('TWILIO_TOKEN')
+  phone_number = os.getenv('TWILIO_NUMBER')
   client = TwilioRestClient(account_sid, auth_token)
  
-  message = client.messages.create(to=number, from_="441143031705",
+  message = client.messages.create(to=number, from_=phone_number,
                                      body=message)
 
 
