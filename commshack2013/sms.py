@@ -16,8 +16,6 @@ def text(number,message):
  
   # Find these values at https://twilio.com/user/account
 
-print os.getenv('KEY_THAT_MIGHT_EXIST', default_value)
-
   account_sid = os.getenv('TWILIO_SID')
   auth_token = os.getenv('TWILIO_TOKEN')
   client = TwilioRestClient(account_sid, auth_token)
