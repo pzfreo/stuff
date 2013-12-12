@@ -14,19 +14,31 @@ def on_message(mosq,obj,msg):
 		sms(msg)
 
 def sms(msg):
-  data = json.loads(msg.payload)
-  text = data['Body'][0]
-  frm = data['From'][0][1:] # REMOVE THE PLUS  
-  print text, frm
-  area = text.split(' ')
-  country = area[0]
-  city = area[1]
-  areatoadd = country+'-'+city
-  sub = { 'phone': frm, 'area': areatoadd}
-  print "added subscriber "+json.dumps(sub)
-  subscribers.append(sub)
-  if (areatoadd in latest):
-  	client.publish("/phone/"+frm, json.dumps(latest[areatoadd]))
+  data = "";
+  frm = ""; 
+  try:
+    data = json.loads(msg.payload)
+    frm = data['From'][0][1:] # REMOVE THE PLUS  
+  except Exception as inst:
+    print "can't read phone number"
+    return
+  
+  try:
+    text = data['Body'][0]
+    print text, frm
+    area = text.split(' ')
+    country = area[0]
+    city = area[1]
+    areatoadd = country+'-'+city
+    sub = { 'phone': frm, 'area': areatoadd}
+    print "added subscriber "+json.dumps(sub)
+    subscribers.append(sub)
+    if (areatoadd in latest):
+      client.publish("/phone/"+frm, "subscription successful")
+      client.publish("/phone/"+frm, json.dumps(latest[areatoadd]))
+  except Exception as inst:
+    print inst
+    client.publish("/phone/"+frm, "sorry subscription failed - maybe you used the wrong format?")
 
 
 def updateandsend(key, data):

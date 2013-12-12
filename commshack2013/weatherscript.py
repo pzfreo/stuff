@@ -5,6 +5,8 @@ from urllib import urlencode
 import json
 
 cities = ["Portsmouth,UK", "Southampton,UK", "London,UK", "Oxford,UK"]
+client = mosquitto.Mosquitto("test-client")
+print client.connect("localhost")
 
 def call_weather(city):
 
@@ -30,8 +32,6 @@ def call_weather(city):
 
        data = dict(temp=temp, humidity=humidity, pressure=pressure, windspeed=windspeed, winddirection=winddirection, country=country,city=city)
        print data
-       client = mosquitto.Mosquitto("test-client")
-       print client.connect("localhost")
        print client.publish("/weather/"+country+"/"+city, json.dumps(data), 0)
     except Exception as inst:
        print inst    
