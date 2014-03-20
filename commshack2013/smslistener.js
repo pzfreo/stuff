@@ -9,4 +9,4 @@ http.createServer(function (req, res) {
   console.log(req.url);
   client.publish('/sms', req.url);
 
-}).listen(80);
+}).listen(8080);
